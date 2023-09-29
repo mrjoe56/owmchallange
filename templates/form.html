@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Form</title>
+</head>
+<body>
+{{direction}}
+<form method="post">
+    <input type="zipcode" name="zip" value="{{ zip }}"/>
+    <input type="submit">
+</form>
+    {% if result is defined and result|length %}
+    <table style="width:100%", border="0">
+        {% for item in result['Titles'] %}
+            <th style="text-align:left"}>{{item}}</th>
+        {% endfor %}
+
+        {% for item in result['Days'] %}    
+            <tr>               
+                <td>{{ item[0] }}</td>
+                <td>{{ item[1] }}</td>
+                <td>{{ item[2] }}</td>                            
+            </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
+</body>
+</html>
