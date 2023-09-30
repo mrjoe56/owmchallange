@@ -1,18 +1,27 @@
 # wrapper/zipcode.py
 
-#from . import session
-
+from dotenv import load_dotenv
+import os
 import requests
-session = requests.Session()
-session.params = {}
-session.params['appid'] = ''
 
-class ZIPCODE(object): # object's constructor initialised by the zip code
-  def __init__(self, zipcode):
-    self.zipcode = zipcode
+class Zipcode(object): # object's constructor initialised by the zip code
+  def __init__(self, zip_code) -> None:
+    load_dotenv()
+    self.appid = os.getenv('OWM_API_KEY')
+    self.zip_code = zip_code
 
   def result(self): # returns the APIs results
     path = 'http://api.openweathermap.org/geo/1.0/zip'
-    session.params['zip'] = self.zipcode
-    response = session.get(path)
+
+    # api 2.5 works with session, so a session needed to be created
+    self.session = requests.Session()
+    self.session.params = {}
+    self.session.params['zip'] = self.zip_code
+    self.session.params['appid'] = self.appid
+
+    response = self.session.get(path)
+
+    # api 3.0 doesn't need a session, it's much better (but, I'm working with 2.5)
+    #response = self.session.get(path, params = {'zip': self.zip_code, 'appid': self.appid})
+    
     return response.json() # which also includes the altitude and longtitude

@@ -3,35 +3,34 @@
 import json
 import datetime as dt
 from itertools import groupby
-from .day import DAY 
+from .day import Day 
 
-class PARSER(object): # object's constructor get the json data
-  def __init__(self, jsonresponse: json):
-    self.jsonresponse = jsonresponse
+class Parser(object): # object's constructor get the json data
+  def __init__(self, json_res: json):
+    self.json_res = json_res
 
   def print(self): # return the full object
-    return self.jsonresponse
+    return self.json_res
 
   def printkeys(self): # returns the keys
-    return self.jsonresponse.keys() 
+    return self.json_res.keys() 
 
   def groupdays(self): # function to group the day's forecast in a dictionary
-    sorteddictionary = dict()
-    #################print("this is the json response", self.jsonresponse)
-    contents = self.jsonresponse["list"] # get the content
+    sorted_dict = dict()
+    contents = self.json_res["list"] # get the content
     contents.sort(key=lambda content: dt.datetime.fromtimestamp(content['dt'])) # sort it based on epoch
     groups = groupby(contents, lambda content: dt.datetime.fromtimestamp(content['dt']).date()) # group it by date
     for date, group in groups: # itterate to create a list of forecasts
       innerlist = []
       for content in group:
         innerlist.append(content)
-      day_instance = DAY(innerlist)
-      sorteddictionary.update({date : day_instance}) # append to dictionary based on date
-    return sorteddictionary # returns the sorted and group'd dictionary
+      day_instance = Day(innerlist)
+      sorted_dict.update({date : day_instance}) # append to dictionary based on date
+    return sorted_dict # returns the sorted and group'd dictionary
   
-  def datalist(self):
+  def datadict(self):
     days = self.groupdays()
-    datalist = { 'Titles': ['Date' , 'Temperature', 'Precipitation'], 'Days': []}
+    data_dict = { 'Titles': ['Date' , 'Temperature', 'Precipitation'], 'Days': []}
     for key in days:
-        datalist['Days'] += [days[key].sortedres()]
-    return datalist
+        data_dict['Days'] += [days[key].sortedres()]
+    return data_dict

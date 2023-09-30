@@ -1,19 +1,58 @@
+{% block javascript %}
+<script>
+    function toggle() {
+        var checkBox = document.getElementById("country_code");
+        var dropDown = document.getElementById("dropdown");
+        var state = document.getElementById("state");
+        if (checkBox.checked == true || state.value == "true"){
+            dropDown.style.display = "inline";
+            state.value = "true";
+        } else {
+            dropDown.style.display = "none";
+            state.value = "false";
+        }
+    }
+    function setState(stateValue) {
+        document.getElementById("state").value = stateValue;
+        document.submit();
+    }
+
+    function getState() {
+        var state = document.getElementById("state");
+        return state.value
+    }
+</script>
+{% endblock %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sample Form</title>
 </head>
-<body>
+<body">
 {{direction}}
-<form method="post">
+<form method="post" onsubmit="setState((getState()))">
+    <input type="checkbox" id="country_code" name="country_code" onclick="toggle()">
+    <label for="country_code">Enable country code dropdown</label><br>
+    
     <input type="zipcode" name="zip" value="{{ zip }}"/>
-    <input type="submit">
+        
+    <p id="dropdown" style="display:none;">
+        <select id="country_codes" name="country_codes" border="1">
+            {% for country_alpha2 in countries %}
+            <option value="{{country_alpha2}}">{{country_alpha2}}</option>
+            {% endfor %}
+        </select>
+    </p>
+
+    <input type="submit" >
+    <input type="hidden" id="state" name="state" value="false">
 </form>
-    {% if result is defined and result|length %}
-    <table style="width:100%", border="0">
+    {% if result is defined and result['Titles']|length > 0 %}
+    <table style="width: 100%;", border="0">
         {% for item in result['Titles'] %}
-            <th style="text-align:left"}>{{item}}</th>
+            <th style="text-align: left;">{{item}}</th>
         {% endfor %}
 
         {% for item in result['Days'] %}    
@@ -24,6 +63,8 @@
             </tr>
         {% endfor %}
     </table>
+    {% else %}
+        {{ result }}
     {% endif %}
 </body>
 </html>

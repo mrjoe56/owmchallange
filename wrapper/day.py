@@ -2,14 +2,14 @@
 
 import datetime as dt
 
-class DAY(object): # object's constructor get the list of forecasts of a day
+class Day(object): # object's constructor get the list of forecasts of a day
   def __init__(self, forecastlist: list):
     self.forecastlist = forecastlist
 
   def printday(self): # return's the day's forcast list
     return self.forecastlist
 
-  def daydate(self): #get's the date from the day object's first list item
+  def daydate(self): # get's the date from the day object's first list item
     forecasts = self.forecastlist # get the list of forecasts for the day
     frmt_date = dt.datetime.utcfromtimestamp(forecasts[0]['dt']).strftime("%d/%m/%Y")
     return frmt_date
