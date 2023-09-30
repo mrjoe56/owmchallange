@@ -35,7 +35,7 @@ def form_post(request: Request):
 
 @app.post('/')
 def form_post(request: Request, zip: int = Form(...)):
-    zip_instance = ZIP(zip)
+    zip_instance = ZIPCODE(zip)
     response = zip_instance.result()
 
     # if response['cod'] == '404':
