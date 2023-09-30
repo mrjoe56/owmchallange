@@ -1,6 +1,11 @@
 # wrapper/forecast.py
 
-from . import session
+#from . import session
+
+import requests
+session = requests.Session()
+session.params = {}
+session.params['appid'] = ''
 
 class FORECAST(object): # object's constructor initialised by the lattitude and the longtitude
   def __init__(self, lat: float, lon: float):

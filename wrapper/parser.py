@@ -17,7 +17,7 @@ class PARSER(object): # object's constructor get the json data
 
   def groupdays(self): # function to group the day's forecast in a dictionary
     sorteddictionary = dict()
-    print("this is the json response", self.jsonresponse)
+    #################print("this is the json response", self.jsonresponse)
     contents = self.jsonresponse["list"] # get the content
     contents.sort(key=lambda content: dt.datetime.fromtimestamp(content['dt'])) # sort it based on epoch
     groups = groupby(contents, lambda content: dt.datetime.fromtimestamp(content['dt']).date()) # group it by date
