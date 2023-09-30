@@ -28,17 +28,22 @@ def form_post(request: Request, zip: str = Form(...)):
     zip_instance = ZIPCODE(zip)
     response = zip_instance.result()
 
-    print(response)
+    #print(response)
 
     if 'cod' in response:
         if response['cod'] == '404':
-            result = "The supplied ZIP code ", zip, " could not be found"
+            result = response['message']
             return templates.TemplateResponse('error.html', context={'request': request, 'direction': DIRECTION, 'result': result, 'zip': zip})
     else:
         forecast_instance = FORECAST(response['lat'], response['lon'])
         response = forecast_instance.result()
-        print("this is the response after providing lan, lon data", response)
-        parser_instance = PARSER(response)
-        result = parser_instance.datalist()
+        if 'cod' in response:
+            if response['cod'] == '404':
+                result = response['message']
+                return templates.TemplateResponse('error.html', context={'request': request, 'direction': DIRECTION, 'result': result, 'zip': zip})
+        else:
+            print("this is the response after providing lan, lon data", response)
+            parser_instance = PARSER(response)
+            result = parser_instance.datalist()
     
     return templates.TemplateResponse('form.html', context={'request': request, 'direction': DIRECTION, 'result': result, 'zip': zip})
