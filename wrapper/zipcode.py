@@ -1,8 +1,8 @@
-# wrapper/zip.py
+# wrapper/zipcode.py
 
 from . import session
 
-class ZIP(object): # object's constructor initialised by the zip code
+class ZIPCODE(object): # object's constructor initialised by the zip code
   def __init__(self, zipcode):
     self.zipcode = zipcode
 

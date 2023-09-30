@@ -1,4 +1,4 @@
-# owmwrapper/forecast.py
+# wrapper/forecast.py
 
 from . import session
 

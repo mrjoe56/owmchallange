@@ -16,4 +16,4 @@ session = requests.Session()
 session.params = {}
 session.params['appid'] = OWM_API_KEY
 
-from .zip import ZIP
+from .zipcode import ZIPCODE
