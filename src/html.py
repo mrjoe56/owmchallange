@@ -4,7 +4,7 @@ from fastapi import FastAPI, HTTPException, status,Request, Form
 from fastapi.templating import Jinja2Templates
 from starlette.responses import FileResponse
 
-from wrapper.zipcode import ZIP
+from wrapper.zipcode import ZIPCODE
 from wrapper.forecast import FORECAST
 from wrapper.parser import PARSER
 from wrapper.day import DAY
