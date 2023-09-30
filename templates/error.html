@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sample Form</title>
+</head>
+<body>
+{{direction}}
+<form method="post">
+    <input type="zipcode" name="zip" value="{{ zip }}"/>
+    <input type="submit">
+</form>
+    {% if result is defined and result|length %}
+    {{ result}}
+    {% endif %}
+</body>
+</html>

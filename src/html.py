@@ -1,32 +1,22 @@
 # src/html.py
 
-from fastapi import FastAPI, HTTPException, status,Request, Form
-from fastapi.templating import Jinja2Templates
-from starlette.responses import FileResponse
-
 from wrapper.zipcode import ZIPCODE
 from wrapper.forecast import FORECAST
 from wrapper.parser import PARSER
 from wrapper.day import DAY
 
-
-# ### working with JSON at the moment ###
-# import json
-# f = open('test.json')
-# data = json.load(f)
-# parser_instance = PARSER(data)
-# ### working with JSON at the moment ###
+from fastapi import FastAPI, HTTPException, status, Request, Response, Form
+from fastapi.templating import Jinja2Templates
+from starlette.responses import FileResponse
+from starlette.background import BackgroundTask
+from http import HTTPStatus
+import uvicorn
 
 DIRECTION = 'Please enter the requested Zip code'
 
 app = FastAPI()
-templates = Jinja2Templates(directory='templates/')
 
-def save_to_text(content, filename):
-    filepath = 'data/{}.txt'.format(filename)
-    with open(filepath, 'w') as f:
-        f.write(content)
-    return filepath
+templates = Jinja2Templates(directory='templates/')
 
 @app.get('/')
 def form_post(request: Request):
@@ -34,23 +24,21 @@ def form_post(request: Request):
     return templates.TemplateResponse('form.html', context={'request': request, 'direction': DIRECTION, 'result': result})
 
 @app.post('/')
-def form_post(request: Request, zip: int = Form(...)):
+def form_post(request: Request, zip: str = Form(...)):
     zip_instance = ZIPCODE(zip)
     response = zip_instance.result()
 
-    # if response['cod'] == '404':
-    #     raise HTTPException(
-    #         status_code=status.HTTP_404_NOT_FOUND,
-    #         detail=f"zip {zip} : Does not exist"
-    #     )
+    print(response)
 
-    forecast_instance = FORECAST(response['lat'], response['lon'])
-    response = forecast_instance.result()
-    parser_instance = PARSER(response)
-
-    result = parser_instance.datalist()
+    if 'cod' in response:
+        if response['cod'] == '404':
+            result = "The supplied ZIP code ", zip, " could not be found"
+            return templates.TemplateResponse('error.html', context={'request': request, 'direction': DIRECTION, 'result': result, 'zip': zip})
+    else:
+        forecast_instance = FORECAST(response['lat'], response['lon'])
+        response = forecast_instance.result()
+        print("this is the response after providing lan, lon data", response)
+        parser_instance = PARSER(response)
+        result = parser_instance.datalist()
+    
     return templates.TemplateResponse('form.html', context={'request': request, 'direction': DIRECTION, 'result': result, 'zip': zip})
-
-    
-    
-# f.close()
