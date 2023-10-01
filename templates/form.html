@@ -66,9 +66,9 @@
             </tr>
         {% endfor %}
     </table>
-    {% else %}
+    {% elif result['error'] == 'yes' %}
         <h2>Error:</h2>
-        {{ result }}
+        {{ result['message'] }}
     {% endif %}
 </body>
 </html>
