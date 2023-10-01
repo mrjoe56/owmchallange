@@ -44,19 +44,16 @@ def form_post(request: Request, zip: str = Form(None), selected: bool = False, c
         zip_instance = Zipcode(zip, country_codes)
         print(zip, " ", country_codes)
 
-    response = zip_instance.result()
+    response = zip_instance.result() # first I put the results of the zip object
 
     if 'cod' in response: # cheking for response code (mainly for errors)
         result = {'error': 'yes', 'code': response['cod'], 'message': response['message']}
-
-        #return templates.TemplateResponse(FORM, context={'request': request, 'direction': DIRECTION, 'countries': country_list_of_dict, 'selected': selected,  'result': result, 'zip': zip})
     else:
-        forecast_instance = Forecast(response['lat'], response['lon'])
-        response = forecast_instance.result()
+        forecast_instance = Forecast(response['lat'], response['lon']) # I use the responses for forecast
+        response = forecast_instance.result()  # then I put the results of the forecast object
         if 'cod' in response: # cheking for response code (mainly for errors)
-            result = {'error': 'yes', 'code': response['cod'], 'message': response['message']}
-
-            #return templates.TemplateResponse(FORM, context={'request': request, 'direction': DIRECTION, 'countries': country_list_of_dict, 'selected': selected,  'result': result, 'zip': zip})
+            result = {'error': 'yes', 'code': response['cod'], 'message': response['message']} 
+            return templates.TemplateResponse(FORM, context={'request': request, 'direction': DIRECTION, 'countries': country_list_of_dict, 'selected': selected,  'result': result, 'zip': zip})
 
         parser_instance = Parser(response)
         result = parser_instance.datadict()
