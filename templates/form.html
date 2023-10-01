@@ -27,11 +27,13 @@
 </head>
 <body>
     <h2>5 days weather forecast wrapper for openweathermap.org API</h2>
-    <h3> (using version 2.5)</h3>
+    <h3>(using version 2.5)</h3>
+    <div style="font-size: 15px;">
     {% for line in direction %}
         {{ line }}
         <br>
     {% endfor %}
+    </div>
     <form id="form" method="post">
         
         <input type="checkbox" id="country_code" name="country_code" onclick="toggle()" {% if request.query_params['selected'] == 'true' %} checked {% endif %}>
