@@ -26,30 +26,33 @@
     <title>openweathermap.org API wrapper</title>
 </head>
 <body>
-{% for line in direction %}
-    {{ line }}
-    <br>
-{% endfor %}
-<form id="form" method="post">
-    
-    <input type="checkbox" id="country_code" name="country_code" onclick="toggle()" {% if request.query_params['selected'] == 'true' %} checked {% endif %}>
+    <h2>5 days weather forecast wrapper for openweathermap.org API</h2>
+    <h3> (using version 2.5)</h3>
+    {% for line in direction %}
+        {{ line }}
+        <br>
+    {% endfor %}
+    <form id="form" method="post">
+        
+        <input type="checkbox" id="country_code" name="country_code" onclick="toggle()" {% if request.query_params['selected'] == 'true' %} checked {% endif %}>
 
-    <label for="country_code">Enable country code dropdown</label><br>
+        <label for="country_code">Enable country code dropdown</label><br>
 
-    <input type="zipcode" name="zip" value="{{ zip }}" />
-     
-    <p id="dropdown" {% if request.query_params['selected'] == 'true' %} style="display:inline;" {% else %} style="display:none;" {% endif %}>   
-        <select id="country_codes" name="country_codes" border="1">
-            {% for country_alpha2 in countries %}
-            <option value="{{ country_alpha2['code'] }}">{{ country_alpha2['name'] }}</option>
-            {% endfor %}
-        </select>
-    </p>
+        <input type="zipcode" name="zip" value="{{ zip }}" />
+        
+        <p id="dropdown" {% if request.query_params['selected'] == 'true' %} style="display:inline;" {% else %} style="display:none;" {% endif %}>   
+            <select id="country_codes" name="country_codes" border="1">
+                {% for country_alpha2 in countries %}
+                <option value="{{ country_alpha2['code'] }}">{{ country_alpha2['name'] }}</option>
+                {% endfor %}
+            </select>
+        </p>
 
-    <input type="submit">
-    <input type="hidden" id="selected" name="selected_state" value="{{ selected }}" />
-</form>
+        <input type="submit">
+        <input type="hidden" id="selected" name="selected_state" value="{{ selected }}" />
+    </form>
     {% if result is defined and result['Titles']|length > 0 %}
+    <h2>Results:</h2>
     <table style="width: 100%;", border="0">
         {% for item in result['Titles'] %}
             <th style="text-align: left;">{{item}}</th>
@@ -64,6 +67,7 @@
         {% endfor %}
     </table>
     {% else %}
+        <h2>Error:</h2>
         {{ result }}
     {% endif %}
 </body>
