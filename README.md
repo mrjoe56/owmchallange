@@ -8,4 +8,5 @@ For more information about uvicorn capabilities (like binding to 0.0.0.0 etc.), 
 
 In addition, please set an environment variable OWM_API_KEY='<you_own_api_key>'
 
+Image: The API I've used
 ![The API I've used](https://github.com/mrjoe56/owmchallange/blob/main/image.jpg?raw=true)
