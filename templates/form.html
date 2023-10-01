@@ -34,7 +34,7 @@
         <br>
     {% endfor %}
     </div>
-    <form id="form" method="post">
+    <form id="form" method="post" style="font-size: 15px;">
         
         <input type="checkbox" id="country_code" name="country_code" onclick="toggle()" {% if request.query_params['selected'] == 'true' %} checked {% endif %}>
 
