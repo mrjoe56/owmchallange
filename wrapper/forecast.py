@@ -24,7 +24,7 @@ class Forecast(object): # object's constructor initialised by the lattitude and 
 
     response = self.session.get(path)
 
-    # api 3.0 doesn't need a session, it's much better (but, I'm working with 2.5)
+    # api 3.0 doesn't need a session, it's much better (but, I'm working with 2.5) / if I'll have time, I'll build it for 3.0 as well, and I'll put them side-by-side
     #response = requests.get(path, params = {'lat': self.lat, 'lon': self.lon, 'units': self.UNITS})
 
     return response.json() # which is a list of 5 days forcast seperated by 3 hours (owm free account)
